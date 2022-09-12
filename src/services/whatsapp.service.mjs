@@ -1,20 +1,42 @@
-import { sendInialQuestion } from '../utils/whtasapp_responses/newAppoinmentResponses.mjs';
+import { sendInialQuestion, sendPatientName } from '../utils/whtasapp_responses/newAppoinmentResponses.mjs';
 
 class WhatsappService {
   constructor(client) {
     this.redisClient = client;
   }
 
+  /**
+   *
+   * @param {string} userPhone the phone number of the client who sent the message
+   * @returns true if the user exist else false
+   */
   async CheckUserManaged(userPhone) {
     const user = await this.redisClient.existsData(userPhone);
     return user;
   }
 
-  // manageNewAppoinment() {}
+  manageRequestOption(userPhone, phoneNumberId, option) {
+    if (option === 'Solicitar nueva cita') {
+      this.redisClient.setData(userPhone, { requestType: 1 });
+    } else if (option === 'Consultar cita') {
+      this.redisClient.setData(userPhone, { requestType: 2 });
+    }
+  }
+
   manageNewUser(userPhone, phoneNumberId) {
     try {
       this.redisClient.setData(userPhone, { requestType: 0 });
       sendInialQuestion(userPhone, phoneNumberId);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  manageNewAppoinment(userPhone, phoneNumberId, messageObj, userData) {
+    try {
+      if (userData.patientName === 0) {
+        // sendPatientName(userPhone, phoneNumberId);
+      }
     } catch (error) {
       throw new Error(error.message);
     }

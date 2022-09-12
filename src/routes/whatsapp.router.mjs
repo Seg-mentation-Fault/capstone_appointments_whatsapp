@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 import express from 'express';
-import axios from 'axios';
 
-import config from '../config/config.mjs';
 import RedisLogic from '../redis/index.mjs';
-import { markAsRead } from '../utils/whtasapp_responses/markAsRead.mjs';
+import config from '../config/config.mjs';
+import { markAsRead, sendNotValidOption } from '../utils/whtasapp_responses/otherResponses.mjs';
 import WhatsappService from '../services/whatsapp.service.mjs';
 
 const router = express.Router();
@@ -37,7 +36,7 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const token = config.meta.accessToken;
+    // const token = config.meta.accessToken;
     const { body } = req;
 
     console.log(JSON.stringify(body));
@@ -57,43 +56,23 @@ router.post('/', async (req, res) => {
         const userExists = await service.CheckUserManaged(from);
         markAsRead(fromId, phoneNumberId);
         if (userExists) {
+          const userData = await redisClient.getData(from);
+
           if (message.type === 'text') {
-            const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
-            console.log(message.text.body);
-            axios
-              .post(
-                `https://graph.facebook.com/v14.0/${phoneNumberId}/messages`,
-                {
-                  messaging_product: 'whatsapp',
-                  recipient_type: 'individual',
-                  to: from,
-                  type: 'text',
-                  text: {
-                    // the text object
-                    preview_url: false,
-                    body: `response: ${msgBody}`,
-                  },
-                },
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                  },
-                }
-              )
-              .then((response) => console.log(JSON.stringify({ finalSend: response })))
-              .catch((e) => console.error(`eror on axios: ${e.code}`));
+            if (userData.requestType !== 0) {
+              const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
+            }
+            sendNotValidOption(from, phoneNumberId);
           } else if (message.type === 'button') {
-            console.log('hwllo btton');
+            const option = message.button.text;
+            console.log(option);
           } else {
-            console.log('nopt entiendo');
+            sendNotValidOption(from, phoneNumberId);
           }
         } else {
           service.manageNewUser(from, phoneNumberId);
         }
-
         console.log('new Version 2.0');
-        redisClient.getData(from).then((data) => console.log(JSON.stringify(data)));
       }
       res.sendStatus(200);
       return;
