@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import express from 'express';
 import axios from 'axios';
 import Redis from 'redis';
@@ -40,20 +41,20 @@ router.post('/', (req, res) => {
 
     console.log(JSON.stringify(body));
 
-    if (req.body.object) {
+    if (body.object) {
       if (
-        req.body.entry &&
-        req.body.entry[0].changes &&
-        req.body.entry[0].changes[0] &&
-        req.body.entry[0].changes[0].value.messages &&
-        req.body.entry[0].changes[0].value.messages[0]
+        body.entry &&
+        body.entry[0].changes &&
+        body.entry[0].changes[0] &&
+        body.entry[0].changes[0].value.messages &&
+        body.entry[0].changes[0].value.messages[0]
       ) {
-        const phoneNumberId = req.body.entry[0].changes[0].value.metadata.phone_number_id;
-        const { from } = req.body.entry[0].changes[0].value.messages[0];
-        const fromId = req.body.entry[0].changes[0].value.messages[0].id;
-        const msgBody = req.body.entry[0].changes[0].value.messages[0].text.body;
+        const phoneNumberId = body.entry[0].changes[0].value.metadata.phone_number_id;
+        const { from } = body.entry[0].changes[0].value.messages[0];
+        const fromId = body.entry[0].changes[0].value.messages[0].id;
+        const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
         markAsRead(fromId, phoneNumberId);
-        console.log(phoneNumberId);
+        console.log(from);
         console.log(msgBody);
         redisClient.set(from, JSON.stringify({ message: msgBody }));
 
