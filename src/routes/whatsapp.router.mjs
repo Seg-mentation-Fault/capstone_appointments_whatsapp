@@ -8,7 +8,7 @@ import { markAsRead } from '../utils/whtasapp_responses/markAsRead.mjs';
 
 const router = express.Router();
 
-const redisClient = RedisLogic();
+const redisClient = new RedisLogic();
 
 //  Authetificates the weebhook with the whatsApp API
 router.get('/', (req, res) => {
