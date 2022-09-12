@@ -1,15 +1,14 @@
 /* eslint-disable no-console */
 import express from 'express';
 import axios from 'axios';
-import Redis from 'redis';
 
 import config from '../config/config.mjs';
+import RedisLogic from '../redis/index.mjs';
 import { markAsRead } from '../utils/whtasapp_responses/markAsRead.mjs';
 
 const router = express.Router();
 
-const redisClient = Redis.createClient({ url: config.redis.url });
-redisClient.connect();
+const redisClient = RedisLogic();
 
 //  Authetificates the weebhook with the whatsApp API
 router.get('/', (req, res) => {
@@ -56,7 +55,7 @@ router.post('/', (req, res) => {
         markAsRead(fromId, phoneNumberId);
         console.log(from);
         console.log(msgBody);
-        redisClient.set(from, JSON.stringify({ message: msgBody }));
+        redisClient.setData(from, { message: msgBody });
 
         axios
           .post(
