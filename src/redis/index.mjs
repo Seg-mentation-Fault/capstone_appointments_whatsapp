@@ -32,7 +32,7 @@ class RedisLogic {
    * @returns true if the value exist else false
    */
   async existsData(value) {
-    const exists = this.redisClient.exists(value);
+    const exists = await this.redisClient.exists(value);
     if (exists === 1) {
       return true;
     }

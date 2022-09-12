@@ -1,13 +1,10 @@
 class whatsappService {
-  redisClient;
-
   constructor(client) {
     this.redisClient = client;
   }
 
-  CheckUserManaged(userPhone) {
-    const user = this.redisClient(userPhone);
-    console.log(user);
+  async CheckUserManaged(userPhone) {
+    const user = await this.redisClient.existsData(userPhone);
     return user;
   }
 }
