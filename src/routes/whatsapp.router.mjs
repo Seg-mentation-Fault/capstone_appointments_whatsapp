@@ -5,10 +5,12 @@ import axios from 'axios';
 import config from '../config/config.mjs';
 import RedisLogic from '../redis/index.mjs';
 import { markAsRead } from '../utils/whtasapp_responses/markAsRead.mjs';
+import WhatsappService from '../services/whatsapp.service.mjs';
 
 const router = express.Router();
 
 const redisClient = new RedisLogic();
+const service = new WhatsappService(redisClient);
 
 //  Authetificates the weebhook with the whatsApp API
 router.get('/', (req, res) => {
@@ -33,7 +35,7 @@ router.get('/', (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const token = config.meta.accessToken;
     const { body } = req;
@@ -48,9 +50,17 @@ router.post('/', (req, res) => {
         body.entry[0].changes[0].value.messages &&
         body.entry[0].changes[0].value.messages[0]
       ) {
-        const phoneNumberId = body.entry[0].changes[0].value.metadata.phone_number_id;
         const { from } = body.entry[0].changes[0].value.messages[0];
+        const phoneNumberId = body.entry[0].changes[0].value.metadata.phone_number_id;
+        const message = body.entry[0].changes[0].value.messages[0];
         const fromId = body.entry[0].changes[0].value.messages[0].id;
+        const userExists = await service.CheckUserManaged(from);
+        if (userExists) {
+          if (message.type === 'text') {
+            console.log('hello');
+          }
+        }
+
         const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
         markAsRead(fromId, phoneNumberId);
         console.log('newVeriosn');

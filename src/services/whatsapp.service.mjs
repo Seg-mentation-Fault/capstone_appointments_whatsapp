@@ -1,4 +1,4 @@
-class whatsappService {
+class WhatsappService {
   constructor(client) {
     this.redisClient = client;
   }
@@ -9,4 +9,4 @@ class whatsappService {
   }
 }
 
-export default whatsappService;
+export default WhatsappService;
