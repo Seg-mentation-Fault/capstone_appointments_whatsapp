@@ -22,7 +22,7 @@ class RedisLogic {
    * @param {string} key the string key to find in the redis Database
    */
   async getData(key) {
-    const data = await this.redisClient.get(key);
+    const data = JSON.parse(await this.redisClient.get(key));
     return data;
   }
 
