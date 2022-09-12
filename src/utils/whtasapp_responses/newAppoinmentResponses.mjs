@@ -55,4 +55,26 @@ const sendPatientName = (fromPhone, phoneNumberId) => {
   }
 };
 
-export { sendInialQuestion, sendPatientName };
+const sendPatientPhoneNumber = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'patient_phone_number',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export { sendInialQuestion, sendPatientName, sendPatientPhoneNumber };

@@ -13,7 +13,7 @@ const HEADERS = {
  */
 const markAsRead = async (fromMessageId, phoneNumberId) => {
   try {
-    const { data } = await axios.post(
+    axios.post(
       `${config.meta.apiUrl}/${phoneNumberId}/messages`,
       {
         messaging_product: 'whatsapp',
@@ -22,12 +22,17 @@ const markAsRead = async (fromMessageId, phoneNumberId) => {
       },
       { headers: HEADERS }
     );
-    if (data.success === true) console.log('the messages has been set as READ');
+    // if (data.success === true) console.log('the messages has been set as READ');
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
+/**
+ * return a message for incorrect responses in selecting the option for the service
+ * @param {string} fromMessageId the number of the client ot mark the message as read
+ * @param {string} phoneNumberId the id for the bussiness id to send the post to the api
+ */
 const sendNotValidOption = (fromMessageId, phoneNumberId) => {
   try {
     axios.post(
@@ -40,7 +45,7 @@ const sendNotValidOption = (fromMessageId, phoneNumberId) => {
         text: {
           // the text object
           preview_url: false,
-          body: 'optiones no validas. Por favor seleccione uno de los dos botones.',
+          body: 'opciones no validas. Por favor selecione uno de los dos botones.',
         },
       },
       { headers: HEADERS }

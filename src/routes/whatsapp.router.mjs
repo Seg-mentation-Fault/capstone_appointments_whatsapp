@@ -55,24 +55,26 @@ router.post('/', async (req, res) => {
         const fromId = body.entry[0].changes[0].value.messages[0].id;
         const userExists = await service.CheckUserManaged(from);
         markAsRead(fromId, phoneNumberId);
+
         if (userExists) {
           const userData = await redisClient.getData(from);
 
           if (message.type === 'text') {
-            if (userData.requestType !== 0) {
-              const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
+            const msgBody = message.text.body;
+            if (userData.requestType === 1) {
+              service.manageNewAppoinment(from, phoneNumberId, msgBody, userData);
             }
             sendNotValidOption(from, phoneNumberId);
           } else if (message.type === 'button') {
             const option = message.button.text;
-            console.log(option);
+            service.manageRequestOption(from, phoneNumberId, option);
           } else {
             sendNotValidOption(from, phoneNumberId);
           }
         } else {
           service.manageNewUser(from, phoneNumberId);
         }
-        console.log('new Version 2.0');
+        console.log('new Version 0.5');
       }
       res.sendStatus(200);
       return;

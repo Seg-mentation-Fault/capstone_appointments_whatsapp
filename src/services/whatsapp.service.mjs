@@ -1,4 +1,8 @@
-import { sendInialQuestion, sendPatientName } from '../utils/whtasapp_responses/newAppoinmentResponses.mjs';
+import {
+  sendInialQuestion,
+  sendPatientName,
+  sendPatientPhoneNumber,
+} from '../utils/whtasapp_responses/newAppoinmentResponses.mjs';
 
 class WhatsappService {
   constructor(client) {
@@ -17,7 +21,8 @@ class WhatsappService {
 
   manageRequestOption(userPhone, phoneNumberId, option) {
     if (option === 'Solicitar nueva cita') {
-      this.redisClient.setData(userPhone, { requestType: 1 });
+      this.redisClient.setData(userPhone, { requestType: 1, patientName: 0 });
+      sendPatientName(userPhone, phoneNumberId);
     } else if (option === 'Consultar cita') {
       this.redisClient.setData(userPhone, { requestType: 2 });
     }
@@ -35,7 +40,8 @@ class WhatsappService {
   manageNewAppoinment(userPhone, phoneNumberId, messageObj, userData) {
     try {
       if (userData.patientName === 0) {
-        // sendPatientName(userPhone, phoneNumberId);
+        this.redisClient.setData(userPhone, { ...userData, patientName: messageObj });
+        sendPatientPhoneNumber(userPhone, phoneNumberId);
       }
     } catch (error) {
       throw new Error(error.message);
