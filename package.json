@@ -1,0 +1,34 @@
+{
+  "name": "capstone_appointments_whatsapp",
+  "version": "1.0.0",
+  "description": "This respository serves as webhook to the WhatsApp Business Api.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.mjs",
+    "dev": "nodemon app.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seg-mentation-Fault/capstone_appointments_whatsapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Seg-mentation-Fault/capstone_appointments_whatsapp/issues"
+  },
+  "homepage": "https://github.com/Seg-mentation-Fault/capstone_appointments_whatsapp#readme",
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
