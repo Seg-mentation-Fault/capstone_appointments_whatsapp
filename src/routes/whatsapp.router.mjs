@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
         const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
         markAsRead(fromId, phoneNumberId);
         console.log('newVeriosn');
-        redisClient.getData(from).then((data) => console.log(data));
+        redisClient.existsData(from).then((data) => console.log(data));
         redisClient.setData(from, { message: msgBody });
 
         axios

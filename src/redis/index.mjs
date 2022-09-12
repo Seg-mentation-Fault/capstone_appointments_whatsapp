@@ -25,6 +25,19 @@ class RedisLogic {
     const data = await this.redisClient.get(key);
     return data;
   }
+
+  /**
+   *
+   * @param {string} value the key for finding the value in redis
+   * @returns true if the value exist else false
+   */
+  async existsData(value) {
+    const exists = this.redisClient.exists(value);
+    if (exists === 1) {
+      return true;
+    }
+    return false;
+  }
 }
 
 export default RedisLogic;
