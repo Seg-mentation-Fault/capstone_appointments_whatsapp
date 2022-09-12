@@ -55,42 +55,45 @@ router.post('/', async (req, res) => {
         const message = body.entry[0].changes[0].value.messages[0];
         const fromId = body.entry[0].changes[0].value.messages[0].id;
         const userExists = await service.CheckUserManaged(from);
+        markAsRead(fromId, phoneNumberId);
         if (userExists) {
           if (message.type === 'text') {
-            console.log('hello');
+            const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
+            console.log(message.text.body);
+            axios
+              .post(
+                `https://graph.facebook.com/v14.0/${phoneNumberId}/messages`,
+                {
+                  messaging_product: 'whatsapp',
+                  recipient_type: 'individual',
+                  to: from,
+                  type: 'text',
+                  text: {
+                    // the text object
+                    preview_url: false,
+                    body: `response: ${msgBody}`,
+                  },
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                }
+              )
+              .then((response) => console.log(JSON.stringify({ finalSend: response })))
+              .catch((e) => console.error(`eror on axios: ${e.code}`));
+          } else if (message.type === 'button') {
+            console.log('hwllo btton');
+          } else {
+            console.log('nopt entiendo');
           }
+        } else {
+          service.manageNewUser(from, phoneNumberId);
         }
 
-        const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
-        markAsRead(fromId, phoneNumberId);
-        console.log('newVeriosn');
-        redisClient.existsData(from).then((data) => console.log(data));
+        console.log('new Version 2.0');
         redisClient.getData(from).then((data) => console.log(JSON.stringify(data)));
-        redisClient.setData(from, { message: msgBody });
-
-        axios
-          .post(
-            `https://graph.facebook.com/v14.0/${phoneNumberId}/messages`,
-            {
-              messaging_product: 'whatsapp',
-              recipient_type: 'individual',
-              to: from,
-              type: 'text',
-              text: {
-                // the text object
-                preview_url: false,
-                body: `response: ${msgBody}`,
-              },
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then((response) => console.log(JSON.stringify({ finalSend: response })))
-          .catch((e) => console.error(`eror on axios: ${e.code}`));
       }
       res.sendStatus(200);
       return;
