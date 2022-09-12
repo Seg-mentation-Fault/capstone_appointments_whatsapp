@@ -2,7 +2,8 @@
   "name": "capstone_appointments_whatsapp",
   "version": "1.0.0",
   "description": "This respository serves as webhook to the WhatsApp Business Api.",
-  "main": "index.js",
+  "main": "app.mjs",
+  "type": "module",
   "scripts": {
     "start": "node app.mjs",
     "dev": "nodemon app.mjs",

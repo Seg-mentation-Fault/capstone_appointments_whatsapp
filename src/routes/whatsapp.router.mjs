@@ -2,8 +2,8 @@ import express from 'express';
 import axios from 'axios';
 import Redis from 'redis';
 
-import config from '../config/config';
-import { markAsRead } from '../utils/whtasapp_responses/markAsRead';
+import config from '../config/config.mjs';
+import { markAsRead } from '../utils/whtasapp_responses/markAsRead.mjs';
 
 const router = express.Router();
 
