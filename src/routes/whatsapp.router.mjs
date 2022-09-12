@@ -53,8 +53,7 @@ router.post('/', (req, res) => {
         const fromId = body.entry[0].changes[0].value.messages[0].id;
         const msgBody = body.entry[0].changes[0].value.messages[0].text.body;
         markAsRead(fromId, phoneNumberId);
-        console.log(from);
-        console.log(msgBody);
+        console.log(redisClient.getData(from));
         redisClient.setData(from, { message: msgBody });
 
         axios
