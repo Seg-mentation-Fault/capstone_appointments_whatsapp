@@ -7,7 +7,6 @@ class RedisLogic {
 
   constructor() {
     this.redisClient = Redis.createClient({ url: config.redis.url });
-    this.redisClient.connect();
   }
 
   /**
@@ -15,7 +14,8 @@ class RedisLogic {
    * @param {string} key the key to save in the redis db
    * @param {Object} data the data to save, this case a object that will saved a JSON string
    */
-  setData(key, data) {
+  async setData(key, data) {
+    await this.redisClient.connect();
     this.redisClient(key, JSON.stringify(data));
   }
 
@@ -23,7 +23,8 @@ class RedisLogic {
    *
    * @param {string} key the string key to find in the redis Database
    */
-  getData(key) {
+  async getData(key) {
+    await this.redisClient.connect();
     return this.redisClient.get(key);
   }
 }
