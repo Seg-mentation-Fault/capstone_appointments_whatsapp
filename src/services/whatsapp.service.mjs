@@ -143,7 +143,7 @@ class WhatsappService {
     }
   }
 
-  manageApoinmentType(userPhone, phoneNumberId, message, userData) {
+  async manageApoinmentType(userPhone, phoneNumberId, message, userData) {
     try {
       if (userData.appoinmentType === 0) {
         if (message === '1') {
@@ -173,7 +173,8 @@ class WhatsappService {
       }
 
       if (!userData.finish) {
-        sendCheckNewAppoinment(userPhone, phoneNumberId, userData);
+        const data = await this.redisClient.getData(userPhone);
+        sendCheckNewAppoinment(userPhone, phoneNumberId, data);
         return;
       }
     } catch (error) {
@@ -181,7 +182,7 @@ class WhatsappService {
     }
   }
 
-  manageSpecializationType(userPhone, phoneNumberId, message, userData) {
+  async manageSpecializationType(userPhone, phoneNumberId, message, userData) {
     try {
       if (userData.SpecializationType === 0) {
         if (message === '1') {
@@ -220,7 +221,8 @@ class WhatsappService {
           sendNotValidnumber(userPhone, phoneNumberId);
           return;
         }
-        sendCheckNewAppoinment(userPhone, phoneNumberId, userData);
+        const data = await this.redisClient.getData(userPhone);
+        sendCheckNewAppoinment(userPhone, phoneNumberId, data);
       }
     } catch (error) {
       throw new Error(error.message);

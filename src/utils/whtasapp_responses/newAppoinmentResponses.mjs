@@ -294,7 +294,7 @@ const sendCheckNewAppoinment = (fromPhone, phoneNumberId, data) => {
           _Municipio_: ${data.townShip}
           _Eps_: ${data.eps}
           _Tipo de Cita_: ${data.appoinmentType}
-          ${data.SpecializationType && `_Especializacion_: ${data.SpecializationType}`}
+          ${data.SpecializationType ? `_Especializacion_: ${data.SpecializationType}` : ''}
           `,
         },
       },
