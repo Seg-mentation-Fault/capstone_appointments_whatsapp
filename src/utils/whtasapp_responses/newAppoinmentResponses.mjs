@@ -275,7 +275,7 @@ const sendCoosaludDiagnostic = (fromPhone, phoneNumberId) => {
   }
 };
 
-const sendCheckResult = (fromPhone, phoneNumberId, data) => {
+const sendCheckNewAppoinment = (fromPhone, phoneNumberId, data) => {
   try {
     axios.post(
       `${config.meta.apiUrl}/${phoneNumberId}/messages`,
@@ -287,9 +287,14 @@ const sendCheckResult = (fromPhone, phoneNumberId, data) => {
         text: {
           // the text object
           preview_url: false,
-          body: `*Por Favor Confirmar la siguiente informacion*:
-          Nombre: ${data.patientName}
-          Teléfono: ${data.patienPhoneNumber}
+          body: `*Por Favor Confirmar la siguiente informacion para solicitud de cita*:
+          _Nombre_: ${data.patientName}
+          _Teléfono_: ${data.patienPhoneNumber}
+          _Documento_: ${data.typeOfDocument} ${data.documentNumber}
+          _Municipio_: ${data.townShip}
+          _Eps_: ${data.eps}
+          _Tipo de Cita_: ${data.appoinmentType}
+          ${data.SpecializationType && `_Especializacion_: ${data.SpecializationType}`}
           `,
         },
       },
@@ -313,5 +318,5 @@ export {
   sendAppointmentType,
   sendSpecializationType,
   sendCoosaludDiagnostic,
-  sendCheckResult,
+  sendCheckNewAppoinment,
 };

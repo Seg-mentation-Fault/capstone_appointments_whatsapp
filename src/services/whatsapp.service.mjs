@@ -1,6 +1,6 @@
 import {
   sendAppointmentType,
-  sendCheckResult,
+  sendCheckNewAppoinment,
   sendDocumentNumber,
   sendDocumentType,
   sendEpsOptions,
@@ -88,7 +88,7 @@ class WhatsappService {
         sendDocumentNumber(userPhone, phoneNumberId);
       } else if (userData.documentNumber === 0) {
         this.redisClient.setData(userPhone, { ...userData, documentNumber: message, townShip: 0 });
-        sendTownship(phoneNumberId, phoneNumberId);
+        sendTownship(userPhone, phoneNumberId);
       } else {
         this.manageAddInfoExtra(userPhone, phoneNumberId, message, userData);
       }
@@ -150,7 +150,7 @@ class WhatsappService {
           this.redisClient.setData(userPhone, {
             ...userData,
             appoinmentType: 'Cita de medicina general',
-            finish: true,
+            finish: false,
           });
         } else if (message === '2') {
           this.redisClient.setData(userPhone, {
@@ -162,13 +162,20 @@ class WhatsappService {
           sendSpecializationType(userPhone, phoneNumberId);
           return;
         } else if (message === '3') {
-          this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: true });
+          this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: false });
+        } else {
+          sendNotValidnumber(userPhone, phoneNumberId);
+          return;
         }
-      } else if (!userData.finish) {
+      } else if (userData.appoinmentType === 'Cita de medicina especializada') {
         this.manageSpecializationType(userPhone, phoneNumberId, message, userData);
         return;
       }
-      sendCheckResult(userPhone, phoneNumberId, userData);
+
+      if (!userData.finish) {
+        sendCheckNewAppoinment(userPhone, phoneNumberId, userData);
+        return;
+      }
     } catch (error) {
       throw new Error(error.message);
     }
@@ -213,7 +220,7 @@ class WhatsappService {
           sendNotValidnumber(userPhone, phoneNumberId);
           return;
         }
-        sendCheckResult(userPhone, phoneNumberId, userData);
+        sendCheckNewAppoinment(userPhone, phoneNumberId, userData);
       }
     } catch (error) {
       throw new Error(error.message);
