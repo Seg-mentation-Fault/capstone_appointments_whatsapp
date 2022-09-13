@@ -3,11 +3,13 @@ import {
   sendCheckResult,
   sendDocumentNumber,
   sendDocumentType,
+  sendEpsOptions,
   sendInialQuestion,
   sendOtherEps,
   sendPatientName,
   sendPatientPhoneNumber,
   sendSpecializationType,
+  sendTownship,
 } from '../utils/whtasapp_responses/newAppoinmentResponses.mjs';
 import { sendNotValidnumber } from '../utils/whtasapp_responses/otherResponses.mjs';
 
@@ -86,6 +88,7 @@ class WhatsappService {
         sendDocumentNumber(userPhone, phoneNumberId);
       } else if (userData.documentNumber === 0) {
         this.redisClient.setData(userPhone, { ...userData, documentNumber: message, townShip: 0 });
+        sendTownship(phoneNumberId, phoneNumberId);
       } else {
         this.manageAddInfoExtra(userPhone, phoneNumberId, message, userData);
       }
@@ -98,6 +101,7 @@ class WhatsappService {
     try {
       if (userData.townShip === 0) {
         this.redisClient.setData(userPhone, { ...userData, townShip: message, eps: 0 });
+        sendEpsOptions(userPhone, phoneNumberId);
       } else {
         this.manageEps(userPhone, phoneNumberId, message, userData);
       }
@@ -145,26 +149,26 @@ class WhatsappService {
         if (message === '1') {
           this.redisClient.setData(userPhone, {
             ...userData,
-            typeOfDocument: 'Cita de medicina general',
+            appoinmentType: 'Cita de medicina general',
             finish: true,
           });
         } else if (message === '2') {
           this.redisClient.setData(userPhone, {
             ...userData,
-            typeOfDocument: 'Cita de medicina especializada',
+            appoinmentType: 'Cita de medicina especializada',
             SpecializationType: 0,
             finish: false,
           });
           sendSpecializationType(userPhone, phoneNumberId);
           return;
         } else if (message === '3') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Odontologia', finish: true });
+          this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: true });
         }
       } else if (!userData.finish) {
         this.manageSpecializationType(userPhone, phoneNumberId, message, userData);
-      } else {
-        sendCheckResult(userPhone, phoneNumberId, userData);
+        return;
       }
+      sendCheckResult(userPhone, phoneNumberId, userData);
     } catch (error) {
       throw new Error(error.message);
     }
