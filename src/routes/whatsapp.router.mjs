@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
     // const token = config.meta.accessToken;
     const { body } = req;
 
-    console.log(JSON.stringify(body));
+    // console.log(JSON.stringify(body));
 
     if (body.object) {
       if (
@@ -63,8 +63,9 @@ router.post('/', async (req, res) => {
             const msgBody = message.text.body;
             if (userData.requestType === 1) {
               service.manageNewAppoinment(from, phoneNumberId, msgBody, userData);
+            } else {
+              sendNotValidOption(from, phoneNumberId);
             }
-            sendNotValidOption(from, phoneNumberId);
           } else if (message.type === 'button') {
             const option = message.button.text;
             service.manageRequestOption(from, phoneNumberId, option);
@@ -74,7 +75,7 @@ router.post('/', async (req, res) => {
         } else {
           service.manageNewUser(from, phoneNumberId);
         }
-        console.log('new Version 0.5');
+        console.log('new Version 0.6');
       }
       res.sendStatus(200);
       return;

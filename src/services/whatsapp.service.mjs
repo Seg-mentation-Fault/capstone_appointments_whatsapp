@@ -1,4 +1,5 @@
 import {
+  sendDocumentType,
   sendInialQuestion,
   sendPatientName,
   sendPatientPhoneNumber,
@@ -15,16 +16,24 @@ class WhatsappService {
    * @returns true if the user exist else false
    */
   async CheckUserManaged(userPhone) {
-    const user = await this.redisClient.existsData(userPhone);
-    return user;
+    try {
+      const user = await this.redisClient.existsData(userPhone);
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   manageRequestOption(userPhone, phoneNumberId, option) {
-    if (option === 'Solicitar nueva cita') {
-      this.redisClient.setData(userPhone, { requestType: 1, patientName: 0 });
-      sendPatientName(userPhone, phoneNumberId);
-    } else if (option === 'Consultar cita') {
-      this.redisClient.setData(userPhone, { requestType: 2 });
+    try {
+      if (option === 'Solicitar nueva cita') {
+        this.redisClient.setData(userPhone, { requestType: 1, patientName: 0 });
+        sendPatientName(userPhone, phoneNumberId);
+      } else if (option === 'Consultar cita') {
+        this.redisClient.setData(userPhone, { requestType: 2 });
+      }
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 
@@ -37,11 +46,14 @@ class WhatsappService {
     }
   }
 
-  manageNewAppoinment(userPhone, phoneNumberId, messageObj, userData) {
+  manageNewAppoinment(userPhone, phoneNumberId, message, userData) {
     try {
       if (userData.patientName === 0) {
-        this.redisClient.setData(userPhone, { ...userData, patientName: messageObj });
+        this.redisClient.setData(userPhone, { ...userData, patientName: message, patienPhoneNumber: 0 });
         sendPatientPhoneNumber(userPhone, phoneNumberId);
+      } else if (userData.patienPhoneNumber === 0) {
+        this.redisClient.setData(userPhone, { ...userData, patienPhoneNumber: message, typeOfDocument: 0 });
+        sendDocumentType(userPhone, phoneNumberId);
       }
     } catch (error) {
       throw new Error(error.message);

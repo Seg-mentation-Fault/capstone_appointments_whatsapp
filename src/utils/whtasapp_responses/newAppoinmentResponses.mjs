@@ -77,4 +77,215 @@ const sendPatientPhoneNumber = (fromPhone, phoneNumberId) => {
   }
 };
 
-export { sendInialQuestion, sendPatientName, sendPatientPhoneNumber };
+const sendDocumentType = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'document_type',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendDocumentNumber = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'document_number',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendEmail = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'email',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendTownship = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'township',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendEpsOptions = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'eps_options',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendOtherEps = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'other_eps',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendAppointmentType = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'appointment_type',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendSpecializationType = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'specialization_type',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendCoosaludDiagnostic = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to: fromPhone,
+        type: 'template',
+        template: {
+          name: 'specialization_type',
+          language: {
+            code: 'es',
+          },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export {
+  sendInialQuestion,
+  sendPatientName,
+  sendPatientPhoneNumber,
+  sendDocumentType,
+  sendDocumentNumber,
+  sendEmail,
+  sendTownship,
+  sendEpsOptions,
+  sendOtherEps,
+  sendAppointmentType,
+  sendSpecializationType,
+  sendCoosaludDiagnostic,
+};
