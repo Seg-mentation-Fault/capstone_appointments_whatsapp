@@ -114,17 +114,17 @@ class WhatsappService {
     try {
       if (userData.eps === 0) {
         if (message === '1') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Salud Total EPS', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, { ...userData, eps: 'Salud Total EPS', appoinmentType: 0 });
         } else if (message === '2') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Nueva EPS', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, { ...userData, eps: 'Nueva EPS', appoinmentType: 0 });
         } else if (message === '3') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Conpensar EPS', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, { ...userData, eps: 'Conpensar EPS', appoinmentType: 0 });
         } else if (message === '4') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Coosalud', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, { ...userData, eps: 'Coosalud', appoinmentType: 0 });
         } else if (message === '5') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Positiva', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, { ...userData, eps: 'Positiva', appoinmentType: 0 });
         } else if (message === '6') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'otra', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, { ...userData, eps: 'otra', appoinmentType: 0 });
           sendOtherEps(userPhone, phoneNumberId);
           return;
         } else {
@@ -133,7 +133,7 @@ class WhatsappService {
         }
         sendAppointmentType(userPhone, phoneNumberId);
       } else if (userData.eps === 'otra') {
-        this.redisClient.setData(userPhone, { ...userData, typeOfDocument: message });
+        this.redisClient.setData(userPhone, { ...userData, eps: message });
         sendAppointmentType(userPhone, phoneNumberId);
       } else {
         this.manageApoinmentType(userPhone, phoneNumberId, message, userData);
