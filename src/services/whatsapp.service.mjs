@@ -178,37 +178,37 @@ class WhatsappService {
     try {
       if (userData.SpecializationType === 0) {
         if (message === '1') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Dermatología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Dermatología' });
         } else if (message === '2') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Urología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Urología' });
         } else if (message === '3') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Ginecología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Ginecología' });
         } else if (message === '4') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Ortopedia' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Ortopedia' });
         } else if (message === '5') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Anestesiología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Anestesiología' });
         } else if (message === '6') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Pediatría' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Pediatría' });
         } else if (message === '7') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Cirugía General' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Cirugía General' });
         } else if (message === '8') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Cirugía Plástica' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Cirugía Plástica' });
         } else if (message === '9') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Cirugía Pediátrica' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Cirugía Pediátrica' });
         } else if (message === '10') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Medicina Interna' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Medicina Interna' });
         } else if (message === '11') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Neurología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Neurología' });
         } else if (message === '12') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Neurocirugía' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Neurocirugía' });
         } else if (message === '13') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Endocrinología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Endocrinología' });
         } else if (message === '14') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Otorrinolaringología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Otorrinolaringología' });
         } else if (message === '15') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'Medicina del dolor' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'Medicina del dolor' });
         } else if (message === '16') {
-          this.redisClient.setData(userPhone, { ...userData, typeOfDocument: 'anestesiología' });
+          this.redisClient.setData(userPhone, { ...userData, SpecializationType: 'anestesiología' });
         } else {
           sendNotValidnumber(userPhone, phoneNumberId);
           return;
