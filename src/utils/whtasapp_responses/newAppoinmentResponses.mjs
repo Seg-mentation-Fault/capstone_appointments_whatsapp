@@ -262,10 +262,35 @@ const sendCoosaludDiagnostic = (fromPhone, phoneNumberId) => {
         to: fromPhone,
         type: 'template',
         template: {
-          name: 'specialization_type',
+          name: 'coosalud_diagnostic',
           language: {
             code: 'es',
           },
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendCheckResult = (fromPhone, phoneNumberId, data) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: fromPhone,
+        type: 'text',
+        text: {
+          // the text object
+          preview_url: false,
+          body: `*Por Favor Confirmar la siguiente informacion*:
+          Nombre: ${data.patientName}
+          Teléfono: ${data.patienPhoneNumber}
+          `,
         },
       },
       { headers: HEADERS }
@@ -288,4 +313,5 @@ export {
   sendAppointmentType,
   sendSpecializationType,
   sendCoosaludDiagnostic,
+  sendCheckResult,
 };
