@@ -121,7 +121,12 @@ class WhatsappService {
         } else if (message === '3') {
           this.redisClient.setData(userPhone, { ...userData, eps: 'Conpensar EPS', appoinmentType: 0 });
         } else if (message === '4') {
-          this.redisClient.setData(userPhone, { ...userData, eps: 'Coosalud', appoinmentType: 0 });
+          this.redisClient.setData(userPhone, {
+            ...userData,
+            eps: 'Coosalud',
+            appoinmentType: 0,
+            CoosaludDiagnostic: 0,
+          });
           sendCoosaludDiagnostic(userPhone, phoneNumberId);
           return;
         } else if (message === '5') {
@@ -138,7 +143,7 @@ class WhatsappService {
       } else if (userData.eps === 'otra') {
         this.redisClient.setData(userPhone, { ...userData, eps: message });
         sendAppointmentType(userPhone, phoneNumberId);
-      } else if (userData.eps === 'Coosalud') {
+      } else if (userData.eps === 'Coosalud' && userData.CoosaludDiagnostic === 0) {
         this.redisClient.setData(userPhone, { ...userData, CoosaludDiagnostic: message });
         sendAppointmentType(userPhone, phoneNumberId);
       } else {
