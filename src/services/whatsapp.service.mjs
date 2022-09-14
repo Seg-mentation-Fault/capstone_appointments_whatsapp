@@ -1,6 +1,7 @@
 import {
   sendAppointmentType,
   sendCheckNewAppoinment,
+  sendCoosaludDiagnostic,
   sendDocumentNumber,
   sendDocumentType,
   sendEpsOptions,
@@ -121,6 +122,8 @@ class WhatsappService {
           this.redisClient.setData(userPhone, { ...userData, eps: 'Conpensar EPS', appoinmentType: 0 });
         } else if (message === '4') {
           this.redisClient.setData(userPhone, { ...userData, eps: 'Coosalud', appoinmentType: 0 });
+          sendCoosaludDiagnostic(userPhone, phoneNumberId);
+          return;
         } else if (message === '5') {
           this.redisClient.setData(userPhone, { ...userData, eps: 'Positiva', appoinmentType: 0 });
         } else if (message === '6') {
@@ -134,6 +137,9 @@ class WhatsappService {
         sendAppointmentType(userPhone, phoneNumberId);
       } else if (userData.eps === 'otra') {
         this.redisClient.setData(userPhone, { ...userData, eps: message });
+        sendAppointmentType(userPhone, phoneNumberId);
+      } else if (userData.eps === 'Coosalud') {
+        this.redisClient.setData(userPhone, { ...userData, CoosaludDiagnostic: message });
         sendAppointmentType(userPhone, phoneNumberId);
       } else {
         this.manageApoinmentType(userPhone, phoneNumberId, message, userData);

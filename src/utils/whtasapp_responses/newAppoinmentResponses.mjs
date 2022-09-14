@@ -287,14 +287,15 @@ const sendCheckNewAppoinment = (fromPhone, phoneNumberId, data) => {
         text: {
           // the text object
           preview_url: false,
-          body: `*Por Favor Confirmar la siguiente informacion para solicitud de cita*:
-          _Nombre_: ${data.patientName}
-          _Teléfono_: ${data.patienPhoneNumber}
-          _Documento_: ${data.typeOfDocument} ${data.documentNumber}
-          _Municipio_: ${data.townShip}
-          _Eps_: ${data.eps}
-          _Tipo de Cita_: ${data.appoinmentType}
-          ${data.SpecializationType ? `_Especializacion_: ${data.SpecializationType}` : ''}
+          body: `
+*Por Favor Confirmar la siguiente informacion para solicitud de cita*:
+_Nombre_: ${data.patientName}
+_Teléfono_: ${data.patienPhoneNumber}
+_Documento_: ${data.typeOfDocument} ${data.documentNumber}
+_Municipio_: ${data.townShip}
+_Eps_: ${data.eps}
+_Tipo de Cita_: ${data.appoinmentType}
+${data.SpecializationType ? `_Especializacion_: ${data.SpecializationType}` : ''}
           `,
         },
       },
