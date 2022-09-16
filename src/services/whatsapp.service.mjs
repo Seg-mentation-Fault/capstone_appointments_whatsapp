@@ -213,6 +213,7 @@ class WhatsappService {
           coosaludDiagnostic: userData.CoosaludDiagnostic,
         });
         sendConfirmationSuccess(userPhone, phoneNumberId);
+        this.redisClient.deleteData(userPhone);
       } else if (message === '2') {
         this.redisClient.deleteData(userPhone);
       } else {
