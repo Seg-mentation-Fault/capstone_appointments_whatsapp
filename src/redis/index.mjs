@@ -14,7 +14,7 @@ class RedisLogic {
    * @param {Object} data the data to save, this case a object that will saved a JSON string
    */
   setData(key, data) {
-    this.redisClient.setEx(key, 60, JSON.stringify(data));
+    this.redisClient.setEx(key, 3600, JSON.stringify(data));
   }
 
   /**
