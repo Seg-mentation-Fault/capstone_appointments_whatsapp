@@ -191,18 +191,16 @@ class WhatsappService {
         this.redisClient.setData(userPhone, { ...userData, finish: true });
         return;
       }
-      this.manageConfirmation(userPhone, phoneNumberId, message, userData);
+      this.manageConfirmation(userPhone, phoneNumberId, message);
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  async manageConfirmation(userPhone, phoneNumberId, message, userData) {
+  async manageConfirmation(userPhone, phoneNumberId, message) {
     try {
-      console.log(JSON.stringify(userData));
       if (message === '1') {
-        const data = await this.redisClient.getData(userPhone);
-        console.log(JSON.stringify(data));
+        const userData = await this.redisClient.getData(userPhone);
         postAppointment({
           name: userData.patientName,
           phoneNumber: userData.patienPhoneNumber,
