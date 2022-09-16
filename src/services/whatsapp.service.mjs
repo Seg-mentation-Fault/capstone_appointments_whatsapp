@@ -160,13 +160,13 @@ class WhatsappService {
     try {
       if (userData.appoinmentType === 0) {
         if (message === '1') {
-          this.redisClient.setData(userPhone, {
+          await this.redisClient.setData(userPhone, {
             ...userData,
             appoinmentType: 'Cita de medicina general',
             finish: false,
           });
         } else if (message === '2') {
-          this.redisClient.setData(userPhone, {
+          await this.redisClient.setData(userPhone, {
             ...userData,
             appoinmentType: 'Cita de medicina especializada',
             SpecializationType: 0,
@@ -175,12 +175,12 @@ class WhatsappService {
           sendSpecializationType(userPhone, phoneNumberId);
           return;
         } else if (message === '3') {
-          this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: false });
+          await this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: false });
         } else {
           sendNotValidnumber(userPhone, phoneNumberId);
           return;
         }
-      } else if (userData.appoinmentType === 'Cita de medicina especializada') {
+      } else if (userData.appoinmentType === 'Cita de medicina especializada' && !userData.finish) {
         this.manageSpecializationType(userPhone, phoneNumberId, message, userData);
         return;
       }
