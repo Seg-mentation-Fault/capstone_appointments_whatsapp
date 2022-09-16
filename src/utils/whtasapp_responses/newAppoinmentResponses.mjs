@@ -320,7 +320,7 @@ const sendConfirmationSuccess = (fromPhone, phoneNumberId) => {
         text: {
           // the text object
           preview_url: false,
-          body: `Exitoso su cita ha sido correctamente generada. :)`,
+          body: `Exitoso, su cita ha sido correctamente generada. 👨‍⚕️`,
         },
       },
       { headers: HEADERS }

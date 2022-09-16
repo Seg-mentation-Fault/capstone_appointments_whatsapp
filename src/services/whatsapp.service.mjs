@@ -199,6 +199,7 @@ class WhatsappService {
 
   async manageConfirmation(userPhone, phoneNumberId, message, userData) {
     try {
+      console.log(JSON.stringify(userData));
       if (message === '1') {
         postAppointment({
           name: userData.patientName,
