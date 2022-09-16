@@ -267,7 +267,7 @@ class WhatsappService {
         }
         const data = await this.redisClient.getData(userPhone);
         sendCheckNewAppoinment(userPhone, phoneNumberId, data);
-        this.redisClient.setData(userPhone, { ...userData, finish: true });
+        this.redisClient.setData(userPhone, { ...data, finish: true });
       }
     } catch (error) {
       throw new Error(error.message);
