@@ -160,13 +160,13 @@ class WhatsappService {
     try {
       if (userData.appoinmentType === 0) {
         if (message === '1') {
-          await this.redisClient.setData(userPhone, {
+          this.redisClient.setData(userPhone, {
             ...userData,
             appoinmentType: 'Cita de medicina general',
             finish: false,
           });
         } else if (message === '2') {
-          await this.redisClient.setData(userPhone, {
+          this.redisClient.setData(userPhone, {
             ...userData,
             appoinmentType: 'Cita de medicina especializada',
             SpecializationType: 0,
@@ -175,7 +175,7 @@ class WhatsappService {
           sendSpecializationType(userPhone, phoneNumberId);
           return;
         } else if (message === '3') {
-          await this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: false });
+          this.redisClient.setData(userPhone, { ...userData, appoinmentType: 'Odontologia', finish: false });
         } else {
           sendNotValidnumber(userPhone, phoneNumberId);
           return;
@@ -201,6 +201,8 @@ class WhatsappService {
     try {
       console.log(JSON.stringify(userData));
       if (message === '1') {
+        const data = await this.redisClient.getData(userPhone);
+        console.log(JSON.stringify(data));
         postAppointment({
           name: userData.patientName,
           phoneNumber: userData.patienPhoneNumber,
