@@ -1,6 +1,7 @@
 import {
   sendAppointmentType,
   sendCheckNewAppoinment,
+  sendConfirmationSuccess,
   sendCoosaludDiagnostic,
   sendDocumentNumber,
   sendDocumentType,
@@ -13,6 +14,7 @@ import {
   sendTownship,
 } from '../utils/whtasapp_responses/newAppoinmentResponses.mjs';
 import { sendNotValidnumber } from '../utils/whtasapp_responses/otherResponses.mjs';
+import { postAppointment } from './sheets.service.mjs';
 
 class WhatsappService {
   constructor(client) {
@@ -186,6 +188,35 @@ class WhatsappService {
       if (!userData.finish) {
         const data = await this.redisClient.getData(userPhone);
         sendCheckNewAppoinment(userPhone, phoneNumberId, data);
+        this.redisClient.setData(userPhone, { ...userData, finish: true });
+        return;
+      }
+      this.manageConfirmation(userPhone, phoneNumberId, message, userData);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async manageConfirmation(userPhone, phoneNumberId, message, userData) {
+    try {
+      if (message === '1') {
+        postAppointment({
+          name: userData.patientName,
+          phoneNumber: userData.patienPhoneNumber,
+          documentType: userData.typeOfDocument,
+          documentNumber: userData.documentNumber,
+          township: userData.townShip,
+          email: userData.email,
+          eps: userData.eps,
+          appointmentType: userData.appoinmentType,
+          specializationType: userData.SpecializationType,
+          coosaludDiagnostic: userData.CoosaludDiagnostic,
+        });
+        sendConfirmationSuccess(userPhone, phoneNumberId);
+      } else if (message === '2') {
+        this.redisClient.deleteData(userPhone);
+      } else {
+        sendNotValidnumber(userPhone, phoneNumberId);
         return;
       }
     } catch (error) {
@@ -234,6 +265,7 @@ class WhatsappService {
         }
         const data = await this.redisClient.getData(userPhone);
         sendCheckNewAppoinment(userPhone, phoneNumberId, data);
+        this.redisClient.setData(userPhone, { ...userData, finish: true });
       }
     } catch (error) {
       throw new Error(error.message);

@@ -296,7 +296,31 @@ _Municipio_: ${data.townShip}
 _Eps_: ${data.eps}
 _Tipo de Cita_: ${data.appoinmentType}
 ${data.SpecializationType ? `_Especializacion_: ${data.SpecializationType}` : ''}
+*1. Confirmar*
+*2. Cancelar*
           `,
+        },
+      },
+      { headers: HEADERS }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const sendConfirmationSuccess = (fromPhone, phoneNumberId) => {
+  try {
+    axios.post(
+      `${config.meta.apiUrl}/${phoneNumberId}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: fromPhone,
+        type: 'text',
+        text: {
+          // the text object
+          preview_url: false,
+          body: `Exitoso su cita ha sido correctamente generada. :)`,
         },
       },
       { headers: HEADERS }
@@ -320,4 +344,5 @@ export {
   sendSpecializationType,
   sendCoosaludDiagnostic,
   sendCheckNewAppoinment,
+  sendConfirmationSuccess,
 };
